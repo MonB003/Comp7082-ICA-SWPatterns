@@ -7,7 +7,6 @@ import java.util.Date;
 public class Repository implements IRepository {
     @Override
     public ArrayList<File> search(Date startDate, Date endDate) {
-        String repositoryPath = ".";
         File folder = new File(repositoryPath);
         ArrayList<File> searched = new ArrayList<>();
         File[] files = folder.listFiles();
