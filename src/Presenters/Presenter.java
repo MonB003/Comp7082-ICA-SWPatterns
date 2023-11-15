@@ -8,7 +8,7 @@ import java.util.Date;
 public class Presenter {
     public String getFileResult(Date startDate, Date endDate) {
         //  Call Repository instance to search for the files that match the specified criteria
-        Repository repository = new Repository();
+        Repository repository = Repository.getInstance();
         ArrayList<File> files = repository.search(startDate, endDate);
 
         StringBuilder result = new StringBuilder();
