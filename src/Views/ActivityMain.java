@@ -14,13 +14,14 @@ public class ActivityMain extends Activity implements OnInputListener {
     public void onInput(String input) throws Exception {
         // Receiving input from the user
         String[] dates = input.split(",");
+
+        if (InputValidation.checkInvalidDates(dates)) {
+            return;
+        }
+
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
         Date startDate = format.parse(dates[0]);
         Date endDate = format.parse(dates[1]);
-
-        if (!InputValidation.invalidDateRange(dates[0], dates[1])) {
-            return;
-        }
 
         // Pass it on to the Presenter, receive results from the Presenter
         Presenter presenter = new Presenter();
