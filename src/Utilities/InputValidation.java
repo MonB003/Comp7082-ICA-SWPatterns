@@ -15,11 +15,11 @@ public class InputValidation {
     }
 
     public static boolean containsCharacters(String date) {
-        if (Pattern.matches("[a-zA-Z]+", date)) {
-            System.out.println("Error: Value contains characters: " + date);
-            return true;
+        if (Pattern.matches("^[0-9]{8}_[0-9]{6}", date)) {
+            return false;
         }
-        return false;
+        System.out.println("Error: Value contains invalid characters: " + date);
+        return true;
     }
 
     public static String getFormattedCurrentDateTime() {
