@@ -1,22 +1,45 @@
 package Presenters;
 
 import Models.Repository;
+import Utilities.InputValidation;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Stream;
 
 public class Presenter {
-    public String getFileResult(Date startDate, Date endDate) {
-        //  Call Repository instance to search for the files that match the specified criteria
-        Repository repository = Repository.getInstance();
-        ArrayList<File> files = repository.search(startDate, endDate);
+    public interface IView {
+        void displayResult(String result);
+    }
+     private final IView view;
+     private final Repository repository;
 
-        StringBuilder result = new StringBuilder();
-        if (files != null) {
-            for (File f : files) {
-                result.append(f.getPath()).append(" ");
-            }
+    public Presenter(IView view) {
+        this.view = view;
+        this.repository = Repository.getInstance();
+    }
+
+    public void getFileResult(String input) throws Exception { // (Date startDate, Date endDate)
+        // Receiving input from the user
+        String[] dates = input.split(",");
+
+        // Validate input
+        if (InputValidation.checkInvalidDates(dates)) {
+            return;
         }
-        return result.toString();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date startDate = format.parse(dates[0]);
+        Date endDate = format.parse(dates[1]);
+
+        // Call Repository instance to search for the files that match the specified criteria
+        ArrayList<File> files = repository.search(startDate, endDate);
+        StringBuilder result = new StringBuilder();
+        // Use stream for filtering file results
+        Stream<File> fileStream = files.stream();
+        fileStream.forEach(file ->  result.append(file.getPath()).append(" "));
+        view.displayResult(result.toString());
     }
 }
