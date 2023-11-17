@@ -21,7 +21,7 @@ public class Presenter {
         this.repository = Repository.getInstance();
     }
 
-    public void getFileResult(String input) throws Exception { // (Date startDate, Date endDate)
+    public void getFileResult(String input) throws Exception {
         // Receiving input from the user
         String[] dates = input.split(",");
 
